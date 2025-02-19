@@ -1,4 +1,6 @@
-import {  useSignUp } from '@clerk/nextjs';
+'use client'
+
+import { useSignUp } from '@clerk/nextjs';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import {
