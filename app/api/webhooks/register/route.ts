@@ -37,7 +37,7 @@ export async function POST(req: Request) {
 
   try {
     evt = wh.verify(body, {
-      'svix-id': svix_id,
+      'svix-id': (svix_id),
       'svix-timestamp': svix_timestamp,
       'svix-signature': svix_signature,
     }) as WebhookEvent;

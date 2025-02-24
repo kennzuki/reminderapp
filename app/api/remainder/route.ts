@@ -54,3 +54,41 @@ export async function GET(req: NextRequest) {
     )
   }
 }
+
+
+
+export async function POST(req: NextRequest) {
+    const { userId } = await auth();
+  
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+  
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(userId) },
+      include: { posts: true },
+    });
+    console.log("User:", user);
+  
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+  
+    if (!user.isSubscribed && user.posts.length >= 3) {
+      return NextResponse.json(
+        {
+          error:
+            "Free users can only create up to 3 todos. Please subscribe for more.",
+        },
+        { status: 403 }
+      );
+    }
+  
+    const { title } = await req.json();
+  
+    const post = await prisma.post.create({
+      data: { title, user },
+    });
+  
+    return NextResponse.json(post, { status: 201 });
+  }
