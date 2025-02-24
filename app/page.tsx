@@ -1,12 +1,12 @@
-import Image from "next/image";
+
 
 export default function Home() {
   return (
     
-    <div>
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
      
       <h1>Home</h1>
-      <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+      <p className="">ken</p>
     </div>
   );
 }
