@@ -3,7 +3,7 @@ import { auth } from '@clerk/nextjs/server'; //grab the username and password
 import prisma from '@/lib/prisma';
 
 export async function POST() {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   //validate
   if (!userId) {
@@ -11,7 +11,7 @@ export async function POST() {
   }
   //capture payment
     const user = await prisma.user.findUnique({
-        where: { id: userId },
+        where: { id: parseInt(userId) },
         select: {
             isSubscribed: true,
             subsscriptionEnds: true,
@@ -28,7 +28,7 @@ export async function POST() {
     subscriptionEnds.setMonth(subscriptionEnds.getMonth() + 1)
     //update the value
     const updatedUser= await prisma.user.update({
-      where: { id: userId },
+      where: { id: parseInt(userId) },//might be a froblem
         data: {
             isSubscribed: true,
             subsscriptionEnds: subscriptionEnds,
